@@ -39,6 +39,18 @@ public class BuyerService {
             throw new RuntimeException(e);
         }
     }
+    public void delete(Connection connection,int id){
+        var sql = """
+                DELETE FROM buyer WHERE id =?;
+                """;
+        try (PreparedStatement preparedStatement=connection.prepareStatement(sql)){
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 
     public List<Buyer> findAll(Connection connection) {
         var sql = """

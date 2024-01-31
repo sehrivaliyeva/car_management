@@ -48,6 +48,21 @@ public class CarService {
         }
     }
 
+    public void delete(Connection connection,int id){
+        var sql = """
+                DELETE FROM buyer WHERE car_id =?;
+                DELETE FROM car WHERE id= ?;
+                """;
+        try (PreparedStatement preparedStatement=connection.prepareStatement(sql)){
+            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Car> findAll(Connection connection) {
         String sql = "SELECT car.*, b.id as buyerId, b.phone_number as buyerPhoneNumber, b.name as buyerName FROM car LEFT JOIN buyer b ON car.id = b.car_id";
 
